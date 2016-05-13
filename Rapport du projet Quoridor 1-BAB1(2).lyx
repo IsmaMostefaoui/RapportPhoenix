@@ -267,6 +267,37 @@ Section Informatique
 Introduction
 \end_layout
 
+\begin_layout Standard
+Le projet de cette année a été de créer en langage Java, le jeu de société
+ Quoridor.
+ Le but étant d'appliquer au maximum les concepts et principes vus au cours
+ de l'année, principalement les concepts orienté objet (héritage, interfaces,
+ exceptions, ...).
+ Les différentes options doivent permettre de lancer le jeu en mode graphique
+ ainsi qu'en mode console (un mode statistique).
+ Pour le mode graphique, il est aussi demandé de pouvoir jouer contre un
+ joueur humain ou contre un ordinateur.
+ Cet ordinateur doit avoir minimim deux niveaux de difficultés, une difficuté
+ aléatoire et difficile.
+ De plus, le tout doit se jouer à la souris.
+ Une options de sauvegarde et de chargement de partie est aussi demandé.
+ Enfin, une panoplie de test unitaire doit être effectué.
+ Nous sommes réparti les tâches de cette façon:
+\end_layout
+
+\begin_layout Standard
+Tout d'abord, les classes Grid, Location et Item ont été faites ensembles.
+ Chacun apportait sa contribution au fur et à mesure de l'avancement du
+ projet.
+ Ensuite, Robin a principalement travaillé sur le developpement de l'intelligenc
+e artificielle et de l'abstraction d'un joueur.
+ Il a aussi travaillé sur la classe ARules, qui régit la plupart des règle
+ du jeu et enfin, il a totalement écris le code des tests JUnit.
+ Quant à Ismail, il a travaillé sur la mise place de l'algorithme du path
+ finding et de son implémentation dans le jeu.
+ Il a aussi ob
+\end_layout
+
 \begin_layout Chapter
 Détail et raisonement
 \end_layout
@@ -280,7 +311,7 @@ Classes utilisées
 \end_layout
 
 \begin_layout Standard
-Pour modeliser le plateau, 4 classes principales sont utilisés.
+Pour modéliser le plateau, 4 classes principales sont utilisés.
  Cela permet d'avoir une encapsulation plus optimisée et de profiter de
  l'aspect POO de java.
 \end_layout
@@ -292,7 +323,7 @@ Location
 \begin_layout Standard
 Cette première classe est une sorte de classe d'accès et de vérifications.
  Effectivement, outre le fait qu'elle permette de modéliser la position
- de n'importe quelle objet selon des coordonées x et y, l'accès à ces positions
+ de n'importe quelle objet selon des coordonnées x et y, l'accès à ces positions
  se fait aussi par son intermédiaire.
  Elle permet entre autre d'accéder aux positions des voisins et de vérifier
  certaines caractéristiques (par ex.
@@ -321,7 +352,7 @@ Nous appelons une fente, l'espace entre deux cases ou l'espace situé au
 \end_inset
 
  de la grille.
- Cette clase possède une position de type Location (voir 1.1.1) et plusieurs
+ Cette classe possède une position de type Location (voir 1.1.1) et plusieurs
  accesseurs et modificateurs pour pouvoir changer l'état
 \begin_inset Foot
 status open
@@ -380,7 +411,7 @@ Cette dernière classe est la représentation d'un joueur.
 La première vient d'un choix fait au début de la conception du jeu.
  Ce choix était de modéliser un pion (par une classe Pawn) et d'ensuite
  associé ce pion à un joueur.
- Le problème dans ce choix était principlament causé par l'inutilité de
+ Le problème dans ce choix était principalment causé par l'inutilité de
  la classe Pawn.
  En effet, elle ne représentait que la position de ce dernier sur la grille,
  ce que faisais déjà Location.
@@ -419,7 +450,7 @@ Il y aussi une réference vers l'instance du plateau (type Grid) pour pouvoir
 \end_layout
 
 \begin_layout Standard
-Enfin, un réference de l'instance mode a aussi été placé.
+Enfin, un référence de l'instance mode a aussi été placé.
  Cette dernière n'est présente que pour un seul but, pouvoir utiliser l'algorith
 me de path finding au moment de la pose d'un mur (voir section 3, la pose
  d'un mur).
@@ -444,16 +475,125 @@ Les déplacements
 Les mouvements de base
 \end_layout
 
+\begin_layout Standard
+Dans Quoridor les déplacements dit 
+\begin_inset Quotes eld
+\end_inset
+
+de base
+\begin_inset Quotes erd
+\end_inset
+
+ consistent uniquement à deplacer un pion sur une de ses cases adjacentes.
+ Néanmoins ces derniers peuvent être entraver par d'autres éléments du plateau
+ de jeu, il s'avere donc nécéssaire d'implementer une série de méthodes
+ qui ont pour rôle de tester la validité d'un déplacement.
+\end_layout
+
+\begin_layout Standard
+Dans un cas de déplacement basique quelques vérifications suffisent.
+ Tout d'abord, la case cible ne doit pas être occuppée par un autre pion,
+ et aucun mur ne doit avoir été posé au préalable dans la fente séparant
+ la case cible de la case actuelle.
+ Pour verifier cette dernière condition, l'objet Items ayant comme Location
+ la position de se mur doit être vide.
+ Cette Location s'obtient rapidement avec une simple formule (
+\begin_inset Formula $|\frac{tx-sx}{2}|+sx$
+\end_inset
+
+ pour la coordonnée x, 
+\begin_inset Formula $|\frac{ty-sy}{2}|+sy$
+\end_inset
+
+ pour la coordonnée y).
+ Si ces 2 conditons sont remplies, alors le pion peut se rendre sur cette
+ case cible.
+\end_layout
+
+\begin_layout Standard
+En y réflichissant un instant, on peut se rendre compte que ce seul déplacement
+ pourrait mener à des situations où aucun mouvement n'est possible.
+ Il existe donc une règle supplémentaire décrite ci-dessous qui permet de
+ 
+\begin_inset Quotes eld
+\end_inset
+
+sauter
+\begin_inset Quotes erd
+\end_inset
+
+ par-dessus un pion adverse.
+\end_layout
+
 \begin_layout Subsection
 Les mouvements en diagonale (le cas du face à face)
 \end_layout
 
-\begin_layout Subsubsection
-Explications de l'alogorithme
+\begin_layout Standard
+Comme expliquer dans le point précedent, lorsque qu'une case cible est occupée
+ par un pion adverse le deplacement est invalide, mais une autre règle permet
+ tout de même de se diriger dans cette direction sous réserve de quelques
+ conditions supplémentaires.
+\end_layout
+
+\begin_layout Standard
+Si une case adjacente à un joueur est occupée par un pion adverse, il est
+ possible de 
+\begin_inset Quotes eld
+\end_inset
+
+sauter
+\begin_inset Quotes erd
+\end_inset
+
+ au-dessus de lui si aucun mur ne se trouve entre la positon actuelle du
+ pion et la case visée.
+ 
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Voir Annexe || mettre l'image ici 
+\end_layout
+
+\end_inset
+
+ Concrètement il suffit de vérifier si la case adjacente est occupée par
+ un pion adverse et si un déplacement basique est possible depuis ce pion
+ vers la case d'arrivée.
+\end_layout
+
+\begin_layout Standard
+En revanche, si ce déplacement basique est impossible c'est qu'il y a un
+ mur, ou un autre joueur (cas rencontré uniquement en mode 2vs2), positionné
+ derrière le pion adverse.
+ Il est alors possible d'éffectuer un nouveau déplacement : un mouvement
+ en diagonale.
+ Néanmoins, une dernière conditions(en plus des précédentes) doit être respectée
+, le pion adverse doit pouvoir éffectuer un deplacement basique vers une
+ des ses positions située en diagonale par rapport à la case actuelle du
+ joueur courant.
 \end_layout
 
 \begin_layout Subsubsection
 Explications du modèle choisi
+\end_layout
+
+\begin_layout Standard
+A première vue les déplacements sont simples et faciles à vérifier, mais
+ lorsque l'on se retrouve dans des situations plus complexes, par exemple
+ une situation de diagonale, le nombre de conditions à remplir augmente
+ rapidement.
+ Il est donc plus simple de regrouper tous ces tests dans une seule méthode
+ qui retourne une liste de toutes les positions potentiellement accessibles
+ d'un joueur.
+ A chaque tour de jeu, il suffit de vérifier si la position cible d'un joueur
+ est bien dans cette liste.
+\end_layout
+
+\begin_layout Standard
+Cette méthode c'est également avérée très utile pour la prévisualisation
+ de l'interface graphique, ainsi que dans l'implémentation des IA.
 \end_layout
 
 \begin_layout Section
@@ -465,15 +605,15 @@ Le processus de pose de mur est assez simple à implémenter.
  Cependant, il nécessite certaines vérifications plus ou moins complexe.
  Notamment, celle du caractère non bloquant de chaque mur.
  En effet, les règles du quoridor n'autorisent la pose de murs qui seraient
- bloquant pour le joueurs, et donc qui l'empecherait d'atteindre son objectif.
+ bloquant pour le joueurs, et donc qui l'empêcherait d'atteindre son objectif.
  
 \end_layout
 
 \begin_layout Standard
-Pour cette vérification, le problème majeur est de developper un algorithme
+Pour cette vérification, le problème majeur est de développer un algorithme
  permettant de chercher un chemin partant du pion et arrivant à l'une des
  9 positions finale de la grille.
- Naturellement, le choix s'est porté sur l'algorithme A*, un alogrithme
+ Naturellement, le choix s'est porté sur l'algorithme A*, un algorithme
  bien connu du monde du jeu vidéo 2D.
  
 \end_layout
@@ -481,12 +621,12 @@ Pour cette vérification, le problème majeur est de developper un algorithme
 \begin_layout Standard
 Pour avoir un algorithme bien organisé et bien optimisé, l'utilisation d'un
  site [1], qui avait déjà développé cet algorithme en java de façon plus
- géneral, est nécessaire.
+ général, est nécessaire.
  Ce site utilise plusieurs classes et méthodes pour l'implémentation de
  l'algorithme.
- La plupart de ces dernière ont été copié-collé directemnet dans le code
+ La plupart de ces dernière ont été copié-collé directement dans le code
  source du jeu, cependant, la méthode principale a dû être modifié pour
- concordé avec l'oganisation interne du code.
+ concordé avec l'organisation interne du code.
 \end_layout
 
 \begin_layout Subsection
@@ -495,14 +635,14 @@ Le Path Finding, l'algorithme A*
 
 \begin_layout Standard
 Cet algorithme repose sur l'utilisation des graphes.
- Dans le cadre de l'implémentation de ce jeu, la notion de graphes n'est
+ Dans le cadre de l'implémentation de ce jeu, la notion de graphe n'est
  pas beaucoup utilisé.
  Cependant, le concept de 
-\begin_inset Formula $\mathit{noeud}$
+\begin_inset Formula $\mathit{noeuds}$
 \end_inset
 
  et d'
-\begin_inset Formula $\mathit{arête}$
+\begin_inset Formula $\mathit{arêtes}$
 \end_inset
 
  est exploité pour concordé avec le modèle utilisé.
@@ -511,7 +651,7 @@ Cet algorithme repose sur l'utilisation des graphes.
 
 \begin_layout Standard
 Tout d'abord, un noeud correspond à n'importe quel item du plateau.
- L'ensembles des noeuds sera noté 
+ L'ensemble des noeuds sera noté 
 \begin_inset Formula $\mathit{S}$
 \end_inset
 
@@ -541,7 +681,7 @@ Tout d'abord, un noeud correspond à n'importe quel item du plateau.
 \end_layout
 
 \begin_layout Standard
-La valeur associée est appelé 
+La valeur associée est appelée 
 \begin_inset Formula $\mathit{G}$
 \end_inset
 
@@ -573,7 +713,7 @@ La valeur associée est appelé
 \end_layout
 
 \begin_layout Standard
-La réference parent est un noeud 
+La référence parent est un noeud 
 \begin_inset Formula $\mathit{p}$
 \end_inset
 
@@ -581,18 +721,18 @@ La réference parent est un noeud
 \begin_inset Formula $\mathit{p}$
 \end_inset
 
- est le noeud précedent le noeud courant.
+ est le noeud précédent le noeud courant.
  
 \end_layout
 
 \begin_layout Standard
-Les arêtes quant elles, n'ont pas de relations direct avec la modélisation
+Les arêtes quant à elles, n'ont pas de relations direct avec la modélisation
  de la grille.
  Dans la théorie des graphes, une arête est un ensemble 
 \begin_inset Formula $\mathit{\left\{ a,b\right\} \subseteq S}$
 \end_inset
 
- repéresentant un traits entre les noeuds 
+ repéresentant un trait entre les noeuds 
 \begin_inset Formula $\mathit{a}$
 \end_inset
 
@@ -662,7 +802,7 @@ Il faut comprendre par là, qu'après s'être déplacé d'un noeud
 \begin_inset Formula $\mathit{a}$
 \end_inset
 
- et ce pour tout noeud appartenant 
+ et ce pour tout noeud appartenant à 
 \begin_inset Formula $\mathit{S}$
 \end_inset
 
@@ -672,7 +812,7 @@ Il faut comprendre par là, qu'après s'être déplacé d'un noeud
 \end_inset
 
 .
- Cette liste est trié en fonction de la moyenne de 
+ Cette liste est triée en fonction de la moyenne de 
 \begin_inset Formula $\mathit{G}$
 \end_inset
 
@@ -680,7 +820,7 @@ Il faut comprendre par là, qu'après s'être déplacé d'un noeud
 \end_layout
 
 \begin_layout Standard
-La closeList quant à elle, contient tous les noeuds qui, après une execution
+La closeList quant à elle, contient tous les noeuds qui, après une exécution
  de 
 \begin_inset Formula $\mathit{boucle}$
 \end_inset
@@ -712,10 +852,10 @@ validé
 \end_inset
 
 , une analyse des noeuds voisins valides est faites.
- Parmis ces noeuds, seuls ceux ne se trouvant pas déjà dans la closeList
+ Parmi ces noeuds, seuls ceux ne se trouvant pas déjà dans la closeList
  seront éligible à l'openList.
- En effet, autorisé l'ajout de noeuds déjà présents dans la closeList signifirai
-t un retour en arrière.
+ En effet, autorisé l'ajout de noeuds déjà présents dans la closeList signifiera
+it un retour en arrière.
  
 \end_layout
 
@@ -733,7 +873,7 @@ Pour terminé et enfin ajouter les noeuds à l'openList, une dernière vérifica
 \end_layout
 
 \begin_layout Standard
-La première est d'évaluer le nouveau cout 
+La première est d'évaluer le nouveau coût 
 \begin_inset Formula $\mathit{G}$
 \end_inset
 
@@ -742,7 +882,7 @@ La première est d'évaluer le nouveau cout
 \end_inset
 
 .
- Esuite, il faut récupérer la précedente valeur 
+ Ensuite, il faut récupérer la précédente valeur 
 \begin_inset Formula $\mathit{G}$
 \end_inset
 
@@ -774,12 +914,168 @@ Après ces deux étapes, l'algorithme reboucle en considérant le premier noeud
  de l'openLIst comme étant le noeud courant.
 \end_layout
 
-\begin_layout Standard
-FIN !
-\end_layout
-
 \begin_layout Subsection
 Implémentation du Path Finding
+\end_layout
+
+\begin_layout Standard
+Pour implémenter le path fiding, la création d'un interface appelée 
+\begin_inset Formula $\mathit{IPathFinder}$
+\end_inset
+
+ et d'un classe implémentant cet interface appellé 
+\begin_inset Formula $\mathit{AStarPathFinder}$
+\end_inset
+
+ est utile.
+ Une classe 
+\begin_inset Formula $AStarHeuristic$
+\end_inset
+
+ a aussi été nécessaire.
+ Elle permet le calcul aisé de l'heuristique utilisée.
+\end_layout
+
+\begin_layout Standard
+La structure de donnée utilisé pour le Path Finding est très simple.
+ Il premièrement deux listes.
+ L'une étant une ArrayList<Location> classique correspondant à la closeList.
+ L'autre étant une sortedList, classe crée par Kevin Glass [1], pour simplifier
+ le tri de l'openList.
+ 
+\end_layout
+
+\begin_layout Standard
+Une classe 
+\begin_inset Formula $\mathit{Path}$
+\end_inset
+
+ a été créé pour simplifier le retour d'un chemin.
+ Celle-ci acceuille une ArrayList<Location> et plusieurs méthode comme 
+\begin_inset Formula $\mathit{appendStep()}$
+\end_inset
+
+ (permet d'ajouter une Location à la fin de l'arrayList) et 
+\begin_inset Formula $\mathit{prependStep}$
+\end_inset
+
+ (permet d'ajouter une Location au début de l'arrayList).
+\end_layout
+
+\begin_layout Standard
+Une classe 
+\begin_inset Formula $\mathit{Node}$
+\end_inset
+
+ a aussi été créé et correspond à la modélisation d'un noeud.
+ En pratique, il a été necessaire d'ajouter une valeur 
+\begin_inset Formula $\mathit{depth}$
+\end_inset
+
+ au noeud.
+ En effet, cette valeur est comparé à chaque début de boucle avec une valeur
+ maximum appelé 
+\begin_inset Formula $\mathit{maxSearchDistance}$
+\end_inset
+
+.
+ Cette valeur étant fixé à l'initialisation de la classe, cela permet de
+ ne pas cherché indefiniment un chemin.
+\end_layout
+
+\begin_layout Standard
+A l'initialisation de la classe AStarPathFinder, un tableau à deux dimensions
+ de type Node est crée.
+ Il accueille et initialise tous les Nodes correspondants aux items de la
+ grille.
+ Ainsi, ils sont tous immédiatement accessibles.
+ 
+\end_layout
+
+\begin_layout Standard
+La méthode 
+\begin_inset Formula $\mathit{findPath}$
+\end_inset
+
+ s'occupe d'éxecuter l'algorithme et correspond étape par étape à celui
+ décrit au dessus.
+ Tout est orchestrer par une boucle 
+\begin_inset Formula $\mathit{while}$
+\end_inset
+
+ dont la condition est : tant que le 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+maxSearchDistance
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ est plus grand 
+\begin_inset Formula $\mathit{depthMax}$
+\end_inset
+
+ (depthMax est fait une valeur maximum correspondant au maximum des depths
+ de chaque noeud).
+ Seul quelques paramètres différent avec la version purement algorithmique.
+ 
+\end_layout
+
+\begin_layout Standard
+Le premier est qu'il a fallu ajouter une étape.
+ En effet, le pathfinding servant principalement à cherche un chemin après
+ la pose d'un mur pour confirmer la pose de celui-ci, il a fallu simuler
+ cette pose.
+ Avant chaque exécution, la simulation du mur sur la grille est lancé.
+ Après la fin de l'algorithme, le mur est retiré et est rajouté si l'algorithme
+ renvoie effectivement un chemin.
+\end_layout
+
+\begin_layout Standard
+Le second paramètre est plutôt simple.
+ En effet, à la fin de l'algorithme, la closeList contient tous les Node
+ correspondant au chemin.
+ Sauf que ceux sont organisé dans le désordre.
+ Il faut donc créer un Path et parcourir la closeList de la fin vers le
+ début.
+\end_layout
+
+\begin_layout Standard
+Enfin, à chaque début d'exécution du PathFinding, il ne faut pas oublier
+ de réinitialiser le noeud associé à la position de départ, d'effacer le
+ contenu des deux listes et de mettre le parent du noeud de la position
+ d'arrivé à 
+\begin_inset Formula $\mathit{null}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+L'algorithme se finit lorsque la boucle while principale s'arrête.
+ Ce dernier retourne null si aucun chemin n'a été trouvé.
+ L'algorithme sait lorsque aucun chemin n'a été trouvé si la réfernence
+ 
+\begin_inset Formula $\mathit{t.parent}$
+\end_inset
+
+ est null.
 \end_layout
 
 \begin_layout Section
