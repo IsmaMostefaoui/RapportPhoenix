@@ -535,51 +535,41 @@ Tout d'abord, un noeud correspond à n'importe quel item du plateau.
 \begin_inset Formula $\mathit{valide}$
 \end_inset
 
- est un noeud qui n'est pas un obstacle et que l'on peut franchir dans certaines
- conditions
-\begin_inset Foot
-status open
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-#TODO
-\end_layout
-
-\end_inset
-
-.
+ est un noeud qui n'est pas un obstacle.
  Enfin, à chaque noeud est associé une valeur et un réference parent.
- La valeur associée est appelé G et est simplement une somme de couts.
+ 
+\end_layout
+
+\begin_layout Standard
+La valeur associée est appelé 
+\begin_inset Formula $\mathit{G}$
+\end_inset
+
+ et est simplement une somme de coûts.
  C'est la somme de la distance entre le noeud courant et le noeud 
 \begin_inset Formula $\mathit{t}$
 \end_inset
 
- avec la valeur G du noeud parent.
- G dépend l'
+ avec la valeur 
+\begin_inset Formula $\mathit{G}$
+\end_inset
+
+ du noeud parent.
+ 
+\begin_inset Formula $\mathit{G}$
+\end_inset
+
+ dépend de l'
 \begin_inset Formula $\mathit{heuristique}$
 \end_inset
 
-
-\begin_inset Foot
-status open
-
-\begin_layout Plain Layout
-Méthode de calcul d'une distance.
-\end_layout
-
+ utilisée mais vaut 
+\begin_inset Formula $\mathit{0}$
 \end_inset
 
- utilisée.
- 
+ si le noeud n'a pas encore été analysé et donc que son parent n'est pas
+ défini.
+ L'heuristique est simplement une méthode de calcul d'une distance.
 \end_layout
 
 \begin_layout Standard
@@ -669,25 +659,35 @@ Il faut comprendre par là, qu'après s'être déplacé d'un noeud
 \end_inset
 
 .
- Cette liste est trié en fonction de la moyenne de G et de l'arrête reliant
- le noeud courant et son parent.
+ Cette liste est trié en fonction de la moyenne de 
+\begin_inset Formula $\mathit{G}$
+\end_inset
+
+ et de l'arrête reliant le noeud courant et son parent.
 \end_layout
 
 \begin_layout Standard
-La closeList quant à elle, contient tous les noeud qui après une execution
+La closeList quant à elle, contient tous les noeuds qui, après une execution
  de 
 \begin_inset Formula $\mathit{boucle}$
 \end_inset
 
 , ont été au début de l'openList.
+ Elle correspond donc à la liste du chemin final.
 \end_layout
 
 \begin_layout Standard
-Pour commencer, l'algorithme place le noeud 
+Pour commencer, l'algorithme considère le noeud 
 \begin_inset Formula $\mathit{s}$
 \end_inset
 
- dans l'openList.
+ comme le noeud courant.
+ Il vérifie premièrement si ce noeud courant est le noeud 
+\begin_inset Formula $\mathit{t}$
+\end_inset
+
+.
+ Si oui, l'algorithme s'arrête, sinon il le place dans l'openList.
  Étant le seul de la liste, il est le meilleur choix, donc il est directement
  placé dans la closeList et enlevé de l'openList.
  Une fois le noeud 
@@ -700,7 +700,7 @@ validé
 
 , une analyse des noeuds voisins valides est faites.
  Parmis ces noeuds, seuls ceux ne se trouvant pas déjà dans la closeList
- seront illigible à l'openList.
+ seront éligible à l'openList.
  En effet, autorisé l'ajout de noeuds déjà présents dans la closeList signifirai
 t un retour en arrière.
  
@@ -709,87 +709,64 @@ t un retour en arrière.
 \begin_layout Standard
 Pour terminé et enfin ajouter les noeuds à l'openList, une dernière vérification
  est faites.
- En effet, il faut parcourir tous le noeuds illigibles et les évaluer.
+ Effectivement, il faut parcourir tous le noeuds éligibles et les évaluer.
  On appelera 
 \begin_inset Formula $\mathit{i}$
 \end_inset
 
- le noeud entrain d'être parcouru.
+ le noeud parcouru.
  Elle consiste en deux étapes.
  
 \end_layout
 
 \begin_layout Standard
-La première est d'évaluer le cout G du noeud i.
- Ensuite, il faut récupérer la précedente valeur G du noeud.
- En effet, les coûts dépendant du parent, il est possible d'avoir deux coûts
- différent.
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Arrivé ici hier.
-\end_layout
-
+La première est d'évaluer le nouveau cout 
+\begin_inset Formula $\mathit{G}$
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-A ce stade, il faut choisir le noeud le plus proche de 
-\begin_inset Formula $\mathit{t}$
-\end_inset
-
-, donc il place le premier noeud (celui dont la moyenne 
-\begin_inset Formula $\mathit{G\mid arête}$
-\end_inset
-
- est la plus faible) dans la closeList.
- Après cet échange et avant de continuer, il faut vérifier si le noeud placé
- dans la closeList correspond au noeud 
-\begin_inset Formula $\mathit{t}$
-\end_inset
-
- auquel cas, la recherche est terminé, le chemin est celui composé des noeuds
- de la closeList
-\begin_inset Foot
-status open
-
-\begin_layout Plain Layout
-En pratique, il faut parcourir cette liste à l'envers car chaque nouveau
- noeud est rajouté devant le précedent.
-\end_layout
-
+ du noeud 
+\begin_inset Formula $\mathit{i}$
 \end_inset
 
 .
+ Esuite, il faut récupérer la précedente valeur 
+\begin_inset Formula $\mathit{G}$
+\end_inset
+
+ de ce même noeud.
+ En effet, les coûts dépendant du parent, il est possible d'avoir deux coûts
+ différents pour un même noeud.
+ Si le nouveau coût 
+\begin_inset Formula $\mathit{G}$
+\end_inset
+
+ est plus petit que celui de départ, c'est que le nouveau noeud est de meilleur
+ qualité que l'ancien.
+ Cela signifie que l'algorithme vient de trouver un nouveau noeud, ou qu'il
+ repasse sur un noeud déjà parcouru.
 \end_layout
 
 \begin_layout Standard
-Si telle n'était pas le cas, l'algorithme poursuit le cours de sa boucle.
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-A continuer après avoir fini le paragraphe du dessus avec la note 
-\begin_inset Quotes eld
+La deuxième étape, est la suite logique de la première.
+ Si le noeud 
+\begin_inset Formula $\mathit{i}$
 \end_inset
 
-Arrivé ici hier
-\begin_inset Quotes erd
-\end_inset
-
-
+ étais de meilleur qualité, alors on peut le placer dans l'openList en mettant
+ à jour son parent et son coût.
 \end_layout
 
-\end_inset
+\begin_layout Standard
+Après ces deux étapes, l'algorithme reboucle en considérant le premier noeud
+ de l'openLIst comme étant le noeud courant.
+\end_layout
 
-
+\begin_layout Standard
+FIN !
 \end_layout
 
 \begin_layout Subsection
-Utilisation du Path Finding dans le jeu
+Implémentation du Path Finding
 \end_layout
 
 \begin_layout Section
