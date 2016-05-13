@@ -444,16 +444,125 @@ Les déplacements
 Les mouvements de base
 \end_layout
 
+\begin_layout Standard
+Dans Quoridor les déplacements dit 
+\begin_inset Quotes eld
+\end_inset
+
+de base
+\begin_inset Quotes erd
+\end_inset
+
+ consistent uniquement à deplacer un pion sur une de ses cases adjacentes.
+ Néanmoins ces derniers peuvent être entraver par d'autres éléments du plateau
+ de jeu, il s'avere donc nécéssaire d'implementer une série de méthodes
+ qui ont pour rôle de tester la validité d'un déplacement.
+\end_layout
+
+\begin_layout Standard
+Dans un cas de déplacement basique quelques vérifications suffisent.
+ Tout d'abord, la case cible ne doit pas être occuppée par un autre pion,
+ et aucun mur ne doit avoir été posé au préalable dans la fente séparant
+ la case cible de la case actuelle.
+ Pour verifier cette dernière condition, l'objet Items ayant comme Location
+ la position de se mur doit être vide.
+ Cette Location s'obtient rapidement avec une simple formule (
+\begin_inset Formula $|\frac{tx-sx}{2}|+sx$
+\end_inset
+
+ pour la coordonnée x, 
+\begin_inset Formula $|\frac{ty-sy}{2}|+sy$
+\end_inset
+
+ pour la coordonnée y).
+ Si ces 2 conditons sont remplies, alors le pion peut se rendre sur cette
+ case cible.
+\end_layout
+
+\begin_layout Standard
+En y réflichissant un instant, on peut se rendre compte que ce seul déplacement
+ pourrait mener à des situations où aucun mouvement n'est possible.
+ Il existe donc une règle supplémentaire décrite ci-dessous qui permet de
+ 
+\begin_inset Quotes eld
+\end_inset
+
+sauter
+\begin_inset Quotes erd
+\end_inset
+
+ par-dessus un pion adverse.
+\end_layout
+
 \begin_layout Subsection
 Les mouvements en diagonale (le cas du face à face)
 \end_layout
 
-\begin_layout Subsubsection
-Explications de l'alogorithme
+\begin_layout Standard
+Comme expliquer dans le point précedent, lorsque qu'une case cible est occupée
+ par un pion adverse le deplacement est invalide, mais une autre règle permet
+ tout de même de se diriger dans cette direction sous réserve de quelques
+ conditions supplémentaires.
+\end_layout
+
+\begin_layout Standard
+Si une case adjacente à un joueur est occupée par un pion adverse, il est
+ possible de 
+\begin_inset Quotes eld
+\end_inset
+
+sauter
+\begin_inset Quotes erd
+\end_inset
+
+ au-dessus de lui si aucun mur ne se trouve entre la positon actuelle du
+ pion et la case visée.
+ 
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Voir Annexe || mettre l'image ici 
+\end_layout
+
+\end_inset
+
+ Concrètement il suffit de vérifier si la case adjacente est occupée par
+ un pion adverse et si un déplacement basique est possible depuis ce pion
+ vers la case d'arrivée.
+\end_layout
+
+\begin_layout Standard
+En revanche, si ce déplacement basique est impossible c'est qu'il y a un
+ mur, ou un autre joueur (cas rencontré uniquement en mode 2vs2), positionné
+ derrière le pion adverse.
+ Il est alors possible d'éffectuer un nouveau déplacement : un mouvement
+ en diagonale.
+ Néanmoins, une dernière conditions(en plus des précédentes) doit être respectée
+, le pion adverse doit pouvoir éffectuer un deplacement basique vers une
+ des ses positions située en diagonale par rapport à la case actuelle du
+ joueur courant.
 \end_layout
 
 \begin_layout Subsubsection
 Explications du modèle choisi
+\end_layout
+
+\begin_layout Standard
+A première vue les déplacements sont simples et faciles à vérifier, mais
+ lorsque l'on se retrouve dans des situations plus complexes, par exemple
+ une situation de diagonale, le nombre de conditions à remplir augmente
+ rapidement.
+ Il est donc plus simple de regrouper tous ces tests dans une seule méthode
+ qui retourne une liste de toutes les positions potentiellement accessibles
+ d'un joueur.
+ A chaque tour de jeu, il suffit de vérifier si la position cible d'un joueur
+ est bien dans cette liste.
+\end_layout
+
+\begin_layout Standard
+Cette méthode c'est également avérée très utile pour la prévisualisation
+ de l'interface graphique, ainsi que dans l'implémentation des IA.
 \end_layout
 
 \begin_layout Section
@@ -768,6 +877,24 @@ En pratique, il faut parcourir cette liste à l'envers car chaque nouveau
 
 \begin_layout Standard
 Si telle n'était pas le cas, l'algorithme poursuit le cours de sa boucle.
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+A continuer après avoir fini le paragraphe du dessus avec la note 
+\begin_inset Quotes eld
+\end_inset
+
+Arrivé ici hier
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
