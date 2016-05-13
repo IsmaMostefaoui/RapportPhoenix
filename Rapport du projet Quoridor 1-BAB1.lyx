@@ -1,0 +1,840 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass scrbook
+\begin_preamble
+% increases link area for cross-references and autoname them
+% if you change the document language to e.g. French
+% you must change "extrasenglish" to "extrasfrench"
+\AtBeginDocument{%
+ \renewcommand{\ref}[1]{\mbox{\autoref{#1}}}
+}
+\def\refnamechanges{%
+ \renewcommand*{\equationautorefname}[1]{}
+ \renewcommand{\sectionautorefname}{sec.\negthinspace}
+ \renewcommand{\subsectionautorefname}{sec.\negthinspace}
+ \renewcommand{\subsubsectionautorefname}{sec.\negthinspace}
+ \renewcommand{\figureautorefname}{Fig.\negthinspace}
+ \renewcommand{\tableautorefname}{Tab.\negthinspace}
+}
+\@ifpackageloaded{babel}{\addto\extrasenglish{\refnamechanges}}{\refnamechanges}
+
+% in case somebody want to have the label "Equation"
+%\renewcommand{\eqref}[1]{Equation~(\negthinspace\autoref{#1})}
+
+% that links to image floats jumps to the beginning
+% of the float and not to its caption
+\usepackage[figure]{hypcap}
+
+% the pages of the TOC is numbered roman
+% and a pdf-bookmark for the TOC is added
+\let\myTOC\tableofcontents
+\renewcommand\tableofcontents{%
+  \frontmatter
+  \pdfbookmark[1]{\contentsname}{}
+  \myTOC
+  \mainmatter }
+
+% makes caption labels bold
+% for more info about these settings, see
+% http://mirrors.ctan.org/macros/latex/contrib/koma-script/doc/scrguien.pdf
+\setkomafont{captionlabel}{\bfseries}
+\setcapindent{1em}
+
+% enables calculations
+\usepackage{calc}
+
+% fancy page header/footer settings
+% for more information see section 9 of
+% ftp://www.ctan.org/pub/tex-archive/macros/latex2e/contrib/fancyhdr/fancyhdr.pdf
+\renewcommand{\chaptermark}[1]{\markboth{#1}{#1}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+
+% increases the bottom float placement fraction
+\renewcommand{\bottomfraction}{0.5}
+
+% avoids that floats are placed above its sections
+\let\mySection\section\renewcommand{\section}{\suppressfloats[t]\mySection}
+\end_preamble
+\options intoc,bibliography=totoc,index=totoc,BCOR10mm,captions=tableheading,titlepage,fleqn
+\use_default_options true
+\begin_modules
+customHeadersFooters
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman lmodern
+\font_sans lmss
+\font_typewriter lmtt
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement h
+\paperfontsize 12
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered true
+\pdf_bookmarksopen true
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\pdf_quoted_options "pdfpagelayout=OneColumn, pdfnewwindow=true, pdfstartview=XYZ, plainpages=false"
+\papersize a4paper
+\use_geometry false
+\use_amsmath 2
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date true
+\use_refstyle 0
+\branch chapter-1
+\selected 1
+\filename_suffix 0
+\color #ffaa00
+\end_branch
+\branch chapter-2
+\selected 1
+\filename_suffix 0
+\color #55aaff
+\end_branch
+\branch Summary
+\selected 1
+\filename_suffix 0
+\color #7f7f7f
+\end_branch
+\branch Acknowledgments
+\selected 1
+\filename_suffix 0
+\color #ffff00
+\end_branch
+\branch Appendix
+\selected 1
+\filename_suffix 0
+\color #faf0e6
+\end_branch
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 2
+\paragraph_separation skip
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 2
+\paperpagestyle fancy
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+
+\series bold
+Notes:
+\end_layout
+
+\begin_layout Itemize
+When renaming this file, you must also rename it in all its subdocuments
+ in the document settings in the menu 
+\family sans
+Document\SpecialChar \menuseparator
+Settings\SpecialChar \menuseparator
+Document
+\begin_inset space ~
+\end_inset
+
+Class\SpecialChar \menuseparator
+Select
+\begin_inset space ~
+\end_inset
+
+default
+\begin_inset space ~
+\end_inset
+
+master
+\begin_inset space ~
+\end_inset
+
+document
+\end_layout
+
+\begin_layout Itemize
+For special settings like the header/footer lines or the font of captions,
+ see also the document preamble (menu 
+\family sans
+Document\SpecialChar \menuseparator
+Settings\SpecialChar \menuseparator
+LaTeX Preamble
+\family default
+).
+\end_layout
+
+\begin_layout Itemize
+If you change the document language you also need to check the document
+ preamble and replace there the English-specific setting.
+\end_layout
+
+\begin_layout Itemize
+This file is not designed to change the document class.
+ You can use it nevertheless as starting point if you have to use a special
+ docment class provided by your university, but no support can be granted
+ for this transition.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subject
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Use the official terms and title page layout of your university instead
+ of this one!
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Title
+Rapport de projet
+\end_layout
+
+\begin_layout Subtitle
+Le jeu Quoridor en java
+\end_layout
+
+\begin_layout Author
+Mostefoaui Ismail et Choquet Robin
+\end_layout
+
+\begin_layout Publishers
+Université de Mons
+\begin_inset Newline newline
+\end_inset
+
+Faculté de sciences
+\begin_inset Newline newline
+\end_inset
+
+Section Informatique
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage cleardoublepage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Introduction
+\end_layout
+
+\begin_layout Chapter
+Détail et raisonement
+\end_layout
+
+\begin_layout Section
+Modelisation du plateau de jeu
+\end_layout
+
+\begin_layout Subsection
+Classes utilisées
+\end_layout
+
+\begin_layout Standard
+Pour modeliser le plateau, 4 classes principales sont utilisés.
+ Cela permet d'avoir une encapsulation plus optimisée et de profiter de
+ l'aspect POO de java.
+\end_layout
+
+\begin_layout Subsubsection
+Location
+\end_layout
+
+\begin_layout Standard
+Cette première classe est une sorte de classe d'accès et de vérifications.
+ Effectivement, outre le fait qu'elle permette de modéliser la position
+ de n'importe quelle objet selon des coordonées x et y, l'accès à ces positions
+ se fait aussi par son intermédiaire.
+ Elle permet entre autre d'accéder aux positions des voisins et de vérifier
+ certaines caractéristiques (par ex.
+ si la position représente une position situé dans la grille).
+\end_layout
+
+\begin_layout Subsubsection
+Item
+\end_layout
+
+\begin_layout Standard
+Cette seconde classe est l'objet principal du jeu.
+ En effet, cette dernière modélise l'ensemble des cases et des 
+\begin_inset Formula $\mathit{fentes}$
+\end_inset
+
+
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Nous appelons une fente, l'espace entre deux cases ou l'espace situé au
+ centre de 4 cases déstinés à recevoir un mur.
+\end_layout
+
+\end_inset
+
+ de la grille.
+ Cette clase possède une position de type Location (voir 1.1.1) et plusieurs
+ accesseurs et modificateurs pour pouvoir changer l'état
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Rempli ou non.
+\end_layout
+
+\end_inset
+
+ d'un 
+\begin_inset Formula $\mathit{item}$
+\end_inset
+
+
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Représente une case ou une fentes.
+\end_layout
+
+\end_inset
+
+.
+ Ceci étant modéliser par une simple variable booléenne.
+ Item est un classe courte mais importante dans la modélisation du jeu.
+\end_layout
+
+\begin_layout Subsubsection
+Grid
+\end_layout
+
+\begin_layout Standard
+Cette avant dernière classe est assez courte et comporte quelques méthodes
+ simples.
+ Ici, les méthodes tournent autour de l'attribut 
+\begin_inset Formula $\mathit{board}$
+\end_inset
+
+.
+ C'est un tableau de type Item à deux dimensions destiné à recevoir toutes
+ les cases et fentes du plateau.
+\end_layout
+
+\begin_layout Subsubsection
+Player
+\end_layout
+
+\begin_layout Standard
+Cette dernière classe est la représentation d'un joueur.
+ La création et le choix de cette classe repose sur deux raisons.
+\end_layout
+
+\begin_layout Standard
+La première vient d'un choix fait au début de la conception du jeu.
+ Ce choix était de modéliser un pion (par une classe Pawn) et d'ensuite
+ associé ce pion à un joueur.
+ Le problème dans ce choix était principlament causé par l'inutilité de
+ la classe Pawn.
+ En effet, elle ne représentait que la position de ce dernier sur la grille,
+ ce que faisais déjà Location.
+ Voilà pourquoi la classe Pawn a été remplacé par un attribut Location dans
+ Player qui représente la position du pion associé au joueur.
+\end_layout
+
+\begin_layout Standard
+La seconde raison est simplement esthétique.
+ En effet, avoir un objet Pawn séparé du Player impliquait d'avoir une représent
+ation à part entière consacré aux murs.
+ Cela aurait été fastidieux et inutile (au vu de la création d'Item).
+\end_layout
+
+\begin_layout Standard
+Dans Player se trouvent les informations concernant le joueur (nombre de
+ mur, position, human
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+human est une variable booléenne destinée à modéliser le caractère humain
+ ou non d'un joueur (voir section 4, les intelligences artificielle)
+\end_layout
+
+\end_inset
+
+, etc...).
+ 
+\end_layout
+
+\begin_layout Standard
+Il y aussi une réference vers l'instance du plateau (type Grid) pour pouvoir
+ remplir les items sur lesquelles les joueurs et murs se trouvent.
+ 
+\end_layout
+
+\begin_layout Standard
+Enfin, un réference de l'instance mode a aussi été placé.
+ Cette dernière n'est présente que pour un seul but, pouvoir utiliser l'algorith
+me de path finding au moment de la pose d'un mur (voir section 3, la pose
+ d'un mur).
+\end_layout
+
+\begin_layout Subsection
+Mise en place du plateau de jeu
+\end_layout
+
+\begin_layout Standard
+La mise en place du plateau de jeu a été très simple.
+ En effet, après avoir créer toutes ces classes, il suffit de placer, dans
+ le constructeur de la classe Grid, une double boucle for.
+ Son rôle étant de remplir d'items le tableau à double dimensions.
+\end_layout
+
+\begin_layout Section
+Les déplacements
+\end_layout
+
+\begin_layout Subsection
+Les mouvements de base
+\end_layout
+
+\begin_layout Subsection
+Les mouvements en diagonale (le cas du face à face)
+\end_layout
+
+\begin_layout Subsubsection
+Explications de l'alogorithme
+\end_layout
+
+\begin_layout Subsubsection
+Explications du modèle choisi
+\end_layout
+
+\begin_layout Section
+La pose des murs
+\end_layout
+
+\begin_layout Standard
+Le processus de pose de mur est assez simple à implémenter.
+ Cependant, il nécessite certaines vérifications plus ou moins complexe.
+ Notamment, celle du caractère non bloquant de chaque mur.
+ En effet, les règles du quoridor n'autorisent la pose de murs qui seraient
+ bloquant pour le joueurs, et donc qui l'empecherait d'atteindre son objectif.
+ 
+\end_layout
+
+\begin_layout Standard
+Pour cette vérification, le problème majeur est de developper un algorithme
+ permettant de chercher un chemin partant du pion et arrivant à l'une des
+ 9 positions finale de la grille.
+ Naturellement, le choix s'est porté sur l'algorithme A*, un alogrithme
+ bien connu du monde du jeu vidéo 2D.
+ 
+\end_layout
+
+\begin_layout Standard
+Pour avoir un algorithme bien organisé et bien optimisé, l'utilisation d'un
+ site [1], qui avait déjà développé cet algorithme en java de façon plus
+ géneral, est nécessaire.
+ Ce site utilise plusieurs classes et méthodes pour l'implémentation de
+ l'algorithme.
+ La plupart de ces dernière ont été copié-collé directemnet dans le code
+ source du jeu, cependant, la méthode principale a dû être modifié pour
+ concordé avec l'oganisation interne du code.
+\end_layout
+
+\begin_layout Subsection
+Le Path Finding, l'algorithme A*
+\end_layout
+
+\begin_layout Standard
+Cet algorithme repose sur l'utilisation des graphes.
+ Dans le cadre de l'implémentation de ce jeu, la notion de graphes n'est
+ pas beaucoup utilisé.
+ Cependant, le concept de 
+\begin_inset Formula $\mathit{noeud}$
+\end_inset
+
+ et d'
+\begin_inset Formula $\mathit{arête}$
+\end_inset
+
+ est exploité pour concordé avec le modèle utilisé.
+ 
+\end_layout
+
+\begin_layout Standard
+Tout d'abord, un noeud correspond à n'importe quel item du plateau.
+ L'ensembles des noeuds sera noté 
+\begin_inset Formula $\mathit{S}$
+\end_inset
+
+.
+ On notera 
+\begin_inset Formula $\mathit{s}$
+\end_inset
+
+ le noeud associé à la position de départ et 
+\begin_inset Formula $\mathit{t}$
+\end_inset
+
+ celui associé à la position d'arrivé.
+ Un 
+\begin_inset Formula $\mathit{obstacle}$
+\end_inset
+
+ est défini comme étant un noeud où un joueur ne peut pas se déplacer ou
+ qu'il est interdit de franchir.
+ Ensuite, un noeud 
+\begin_inset Formula $\mathit{valide}$
+\end_inset
+
+ est un noeud qui n'est pas un obstacle et que l'on peut franchir dans certaines
+ conditions
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+#TODO
+\end_layout
+
+\end_inset
+
+.
+ Enfin, à chaque noeud est associé une valeur et un réference parent.
+ La valeur associée est appelé G et est simplement une somme de couts.
+ C'est la somme de la distance entre le noeud courant et le noeud 
+\begin_inset Formula $\mathit{t}$
+\end_inset
+
+ avec la valeur G du noeud parent.
+ G dépend l'
+\begin_inset Formula $\mathit{heuristique}$
+\end_inset
+
+
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Méthode de calcul d'une distance.
+\end_layout
+
+\end_inset
+
+ utilisée.
+ 
+\end_layout
+
+\begin_layout Standard
+Les arêtes quant elles, n'ont pas de relations direct avec la modélisation
+ de la grille.
+ Dans la théorie des graphes, une arête est un ensemble 
+\begin_inset Formula $\mathit{\left\{ a,b\right\} \subseteq S}$
+\end_inset
+
+ repéresentant un traits entre les noeuds 
+\begin_inset Formula $\mathit{a}$
+\end_inset
+
+ et 
+\begin_inset Formula $\mathit{b}$
+\end_inset
+
+.
+ Ici, les arêtes représenteront le 
+\begin_inset Formula $\mathit{côut}$
+\end_inset
+
+ de passage du noeud 
+\begin_inset Formula $\mathit{a}$
+\end_inset
+
+ vers le noeud 
+\begin_inset Formula $\mathit{b}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+L'algorithme repose sur l'utilisation de deux listes.
+ Une que l'on appellera 
+\begin_inset Formula $\mathit{closeList}$
+\end_inset
+
+ et l'autre que l'on appellera 
+\begin_inset Formula $\mathit{openList}$
+\end_inset
+
+
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Cette liste est en fait une 
+\begin_inset Formula $\mathit{sortedList},$
+\end_inset
+
+une implémentation copié de cokeandcode [1] qui trie automatiquement la
+ liste à chaque ajout.
+\end_layout
+
+\end_inset
+
+.
+ L'openList contient tous les noeuds en cours d'analyse.
+ C'est à dire, tous les noeuds valident autour du noeud courant, et ce,
+ depuis le début de l'algorithme
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Il faut comprendre par là, qu'après s'être déplacé d'un noeud 
+\begin_inset Formula $\mathit{a}$
+\end_inset
+
+ vers un noeud 
+\begin_inset Formula $\mathit{b}$
+\end_inset
+
+, l'openList contiendra encore tous les noeuds valident proche du noeud
+ 
+\begin_inset Formula $\mathit{a}$
+\end_inset
+
+ et ce pour tout noeud appartenant 
+\begin_inset Formula $\mathit{S}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+.
+ Cette liste est trié en fonction de la moyenne de G et de l'arrête reliant
+ le noeud courant et son parent.
+\end_layout
+
+\begin_layout Standard
+La closeList quant à elle, contient tous les noeud qui après une execution
+ de 
+\begin_inset Formula $\mathit{boucle}$
+\end_inset
+
+, ont été au début de l'openList.
+\end_layout
+
+\begin_layout Standard
+Pour commencer, l'algorithme place le noeud 
+\begin_inset Formula $\mathit{s}$
+\end_inset
+
+ dans l'openList.
+ Étant le seul de la liste, il est le meilleur choix, donc il est directement
+ placé dans la closeList et enlevé de l'openList.
+ Une fois le noeud 
+\begin_inset Quotes eld
+\end_inset
+
+validé
+\begin_inset Quotes erd
+\end_inset
+
+, une analyse des noeuds voisins valides est faites.
+ Parmis ces noeuds, seuls ceux ne se trouvant pas déjà dans la closeList
+ seront illigible à l'openList.
+ En effet, autorisé l'ajout de noeuds déjà présents dans la closeList signifirai
+t un retour en arrière.
+ 
+\end_layout
+
+\begin_layout Standard
+Pour terminé et enfin ajouter les noeuds à l'openList, une dernière vérification
+ est faites.
+ En effet, il faut parcourir tous le noeuds illigibles et les évaluer.
+ On appelera 
+\begin_inset Formula $\mathit{i}$
+\end_inset
+
+ le noeud entrain d'être parcouru.
+ Elle consiste en deux étapes.
+ 
+\end_layout
+
+\begin_layout Standard
+La première est d'évaluer le cout G du noeud i.
+ Ensuite, il faut récupérer la précedente valeur G du noeud.
+ En effet, les coûts dépendant du parent, il est possible d'avoir deux coûts
+ différent.
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Arrivé ici hier.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A ce stade, il faut choisir le noeud le plus proche de 
+\begin_inset Formula $\mathit{t}$
+\end_inset
+
+, donc il place le premier noeud (celui dont la moyenne 
+\begin_inset Formula $\mathit{G\mid arête}$
+\end_inset
+
+ est la plus faible) dans la closeList.
+ Après cet échange et avant de continuer, il faut vérifier si le noeud placé
+ dans la closeList correspond au noeud 
+\begin_inset Formula $\mathit{t}$
+\end_inset
+
+ auquel cas, la recherche est terminé, le chemin est celui composé des noeuds
+ de la closeList
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+En pratique, il faut parcourir cette liste à l'envers car chaque nouveau
+ noeud est rajouté devant le précedent.
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Si telle n'était pas le cas, l'algorithme poursuit le cours de sa boucle.
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+A continuer après avoir fini le paragraphe du dessus avec la note 
+\begin_inset Quotes eld
+\end_inset
+
+Arrivé ici hier
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Utilisation du Path Finding dans le jeu
+\end_layout
+
+\begin_layout Section
+L'intelligence articielle (IA)
+\end_layout
+
+\begin_layout Subsection
+Mécanique de jeu avec une IA
+\end_layout
+
+\begin_layout Subsection
+Mise en place des différentes inteligences artificielle
+\end_layout
+
+\begin_layout Subsubsection
+IA Facile
+\end_layout
+
+\begin_layout Subsubsection
+IA Standard
+\end_layout
+
+\begin_layout Subsubsection
+IA Difficile
+\end_layout
+
+\begin_layout Section
+Organisation interne du code
+\end_layout
+
+\begin_layout Subsection
+Fonctionement
+\end_layout
+
+\begin_layout Subsection
+UML
+\end_layout
+
+\begin_layout Section
+Interface graphique
+\end_layout
+
+\begin_layout Section
+Conclusion
+\end_layout
+
+\end_body
+\end_document
